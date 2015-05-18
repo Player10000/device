@@ -51,6 +51,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     camera.msm7x27a
 
+# Doze Service
+PRODUCT_PACKAGES += \
+    DozeService
+
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     hwmac \
