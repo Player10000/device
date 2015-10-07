@@ -138,7 +138,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.hwc.fakevsync=1 \
     ro.max.fling_velocity=4000 \
     ro.opengles.version=131072 \
-    ro.sf.lcd_density=240
+    ro.sf.lcd_density=220
 
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=52m \
@@ -155,6 +155,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     rild.libargs=-d/dev/smd0 \
     ro.telephony.call_ring.delay=100 \
     ro.telephony.call_ring.multiple=false
+    ro.lge.proximity.delay=25
+    mot.proximity.delay=25
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb \
