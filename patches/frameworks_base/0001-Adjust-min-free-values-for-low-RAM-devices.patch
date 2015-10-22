@@ -1,0 +1,28 @@
+From a9646952d555d1387989031849d23099eecd8814 Mon Sep 17 00:00:00 2001
+From: eric <ericfari15@gmail.com>
+Date: Wed, 21 Oct 2015 21:25:35 -0300
+Subject: [PATCH] Adjust min free values for low RAM devices
+
+Change-Id: Idd538bb81b4c4d9c2c28baff635f07649fa5dbec
+---
+ services/core/java/com/android/server/am/ProcessList.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ProcessList.java b/services/core/java/com/android/server/am/ProcessList.java
+index 2bf7bb2..08fc477 100755
+--- a/services/core/java/com/android/server/am/ProcessList.java
++++ b/services/core/java/com/android/server/am/ProcessList.java
+@@ -226,8 +226,8 @@ final class ProcessList {
+     private final int[] mOomMinFree = new int[mOomAdj.length];
+     // Optimal OOM killer memory levels for Low-Tier devices.
+     private final int[] mOomMinFreeLowRam = new int[] {
+-            12288, 20478, 32766,
+-            40962, 49152, 57342
++            8192, 13652, 21844,
++            27308, 32768, 38228
+     };
+ 
+     private final long mTotalMemMb;
+-- 
+2.6.1
+
