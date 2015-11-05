@@ -131,9 +131,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.ftp=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cwm.enable_key_repeat=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
     debug.composition.type=dyn \
     debug.hwc.dynThreshold=1.9 \
     persist.hwc.mdpcomp.enable=false \
@@ -158,8 +155,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ril.subscription.types=NV,RUIM \
     rild.libargs=-d/dev/smd0 \
     ro.telephony.call_ring.delay=100 \
-    ro.telephony.call_ring.multiple=false
-    ro.lge.proximity.delay=25
+    ro.telephony.call_ring.multiple=false \
+    ro.lge.proximity.delay=25 \
     mot.proximity.delay=25
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -173,7 +170,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
     audio.gapless.playback.disable=true \
-    audio.offload.disable=1
+    audio.offload.pcm.16bit.enable=false \
+    audio.offload.pcm.24bit.enable=false \
+    audio.offload.buffer.size.kb=32 \
+    audio.offload.gapless.enabled=true \
+    audio.offload.multiple.enabled=false \
+    audio.offload.24bit.enable=false \
+    av.offload.enable=false \
+    av.streaming.offload.enable=false \
+    tunnel.audio.encode=false
 
 # Low RAM
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -181,7 +186,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     config.disable_atlas=true \
     dalvik.vm.jit.codecachesize=0 \
     persist.sys.force_highendgfx=true \
-    ro.config.max_starting_bg=8 \
+    ro.config.max_starting_bg=6 \
     ro.sys.fw.bg_apps_limit=16
     
 # FM Radio
@@ -198,7 +203,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
    media.stagefright.enable-http=true \
    media.stagefright.enable-fma2dp=true \
    media.stagefright.enable-aac=true \
-   media.stagefright.enable-qcp=true
+   media.stagefright.enable-qcp=true \
+   media.aac_51_output_enabled=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
    mm.enable.smoothstreaming=true
