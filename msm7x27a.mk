@@ -64,6 +64,8 @@ PRODUCT_PACKAGES += \
 #    libqcomfm_jni \
 #    qcom.fmradio
 
+PRODUCT_PACKAGES +=  libstlport
+
 #wifi
 PRODUCT_PACKAGES += \
     libwpa_client \
@@ -127,9 +129,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.ftp=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cwm.enable_key_repeat=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
     debug.composition.type=dyn \
     debug.hwc.dynThreshold=1.9 \
     persist.hwc.mdpcomp.enable=false \
@@ -138,7 +137,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.hwc.fakevsync=1 \
     ro.max.fling_velocity=4000 \
     ro.opengles.version=131072 \
-    ro.sf.lcd_density=240
+    ro.sf.lcd_density=220
 
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=52m \
@@ -157,7 +156,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.multiple=false
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp,adb \
     ro.vold.umsdirtyratio=50
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -169,13 +167,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
     audio.gapless.playback.disable=true \
     audio.offload.disable=1
 
+# Wifi
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.disableWifiApFirmwareReload=true
+
 # Low RAM
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.low_ram=true \
     config.disable_atlas=true \
     dalvik.vm.jit.codecachesize=0 \
     persist.sys.force_highendgfx=true \
-    ro.config.max_starting_bg=8 \
+    ro.config.max_starting_bg=6 \
     ro.sys.fw.bg_apps_limit=16
     
 # FM Radio
@@ -203,9 +205,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Use ART small mode
 PRODUCT_PROPERTY_OVERRIDES += \
-   dalvik.vm.dex2oat-filter=interpret-only \
+   dalvik.vm.dex2oat-filter=balanced \
    dalvik.vm.dex2oat-flags=--no-watch-dog \
-   dalvik.vm.image-dex2oat-filter=speed
+   dalvik.vm.image-dex2oat-filter=speed \
+   dalvik.vm.dex2oat-swap=false
 
 # ART properties
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -213,5 +216,13 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
    dalvik.vm.dex2oat-Xmx=96m \
    dalvik.vm.image-dex2oat-Xms=48m \
    dalvik.vm.image-dex2oat-Xmx=48m
+
+# Allow ADB by default
+ADDITIONAL_DEFAULT_PROPERTIES += \
+   ro.secure=0 \
+   ro.adb.secure=0
+
+PRODUCT_PROPERTY_OVERRIDES += \
+   persist.sys.root_access=3
 
 $(call inherit-product, vendor/huawei/msm7x27a-common/msm7x27a-common-vendor.mk)

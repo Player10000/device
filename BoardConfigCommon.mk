@@ -80,6 +80,10 @@ BOARD_HAVE_BLUETOOTH := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
+# RIL
+TARGET_RIL_VARIANT := caf
+BOARD_PROVIDES_LIBRIL := true
+
 # FM
 #AUDIO_FEATURE_ENABLED_FM := true
 
@@ -102,7 +106,7 @@ BOARD_KERNEL_BASE := 0x00200000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=huawei androidboot.selinux=permissive
 BOARD_PAGE_SIZE := 2048
 TARGET_KERNEL_SOURCE := kernel/huawei/huawei-kernel-3.4
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := linaro-4.9-15.05/bin/arm-linux-gnueabihf-
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := linaro-4.9-15.05/bin/arm-linux-gnueabihf-
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01800000
 
 # Lights
@@ -129,10 +133,6 @@ TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 # SELinux
 BOARD_SEPOLICY_DIRS += device/huawei/msm7x27a-common/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    file_contexts \
-    file.te
-
 # USB
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/class/android_usb/android0/f_mass_storage/lun%d/file
@@ -146,11 +146,7 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Enable dex-preoptimization to speed up first boot sequence
 ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),userdebug)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
-  endif
+  WITH_DEXPREOPT := true
 endif
 WITH_DEXPREOPT_PIC := true
 DONT_DEXPREOPT_PREBUILTS := true
@@ -160,3 +156,6 @@ EXTENDED_FONT_FOOTPRINT := true
 
 # Enable Minikin text layout engine (will be the default soon)
 USE_MINIKIN := true
+
+BOARD_CANT_BUILD_RECOVERY_FROM_BOOT_PATCH := true
+TARGET_NOT_USE_GZIP_RECOVERY_RAMDISK := true

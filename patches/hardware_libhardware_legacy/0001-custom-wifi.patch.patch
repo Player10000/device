@@ -1,4 +1,4 @@
-From ee1add6e15b976cb64f90707a5a5bf2b66945a23 Mon Sep 17 00:00:00 2001
+From e900288d7422bf8d1caeb98d05466c282e315aa2 Mon Sep 17 00:00:00 2001
 From: Daz Jones <yuki@thebronasium.com>
 Date: Sat, 27 Jul 2013 02:40:36 +0100
 Subject: [PATCH] wifi: add support for custom Wi-Fi implementations
@@ -9,17 +9,17 @@ Change-Id: Id464138cdb679fc4550914a32d9c71131bdfffb3
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/wifi/Android.mk b/wifi/Android.mk
-index ad9f2c9..859b9bd 100644
+index 6421b4a..02dc510 100644
 --- a/wifi/Android.mk
 +++ b/wifi/Android.mk
-@@ -37,7 +37,13 @@ ifdef WIFI_EXT_MODULE_NAME
- LOCAL_CFLAGS += -DWIFI_EXT_MODULE_NAME=\"$(WIFI_EXT_MODULE_NAME)\"
+@@ -45,7 +45,13 @@ ifdef WIFI_FST_DRIVER_MODULE_NAME
+ LOCAL_CFLAGS += -DWIFI_FST_DRIVER_MODULE_NAME=\"$(WIFI_FST_DRIVER_MODULE_NAME)\"
  endif
  
--LOCAL_SRC_FILES += wifi/wifi.c
+-LOCAL_SRC_FILES += wifi/wifi.c wifi/wifi_fst.c
 +ifeq ($(TARGET_CUSTOM_WIFI),)
 +       LOCAL_SRC_FILES += \
-+               wifi/wifi.c
++               wifi/wifi.c wifi/wifi_fst.c
 +else
 +       LOCAL_SRC_FILES += \
 +               $(TARGET_CUSTOM_WIFI)
@@ -28,5 +28,5 @@ index ad9f2c9..859b9bd 100644
  ifdef WPA_SUPPLICANT_VERSION
  LOCAL_CFLAGS += -DLIBWPA_CLIENT_EXISTS
 -- 
-2.3.1
+2.6.1
 

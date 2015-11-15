@@ -1,21 +1,21 @@
-From 60084ba40b4ee07d0476dcea980ca79b3d2ffdf5 Mon Sep 17 00:00:00 2001
+From e829dd6b641b4785dbccd668e4669f29c09f59cb Mon Sep 17 00:00:00 2001
 From: Kyle Harrison <khwebmail@gmail.com>
 Date: Mon, 24 Nov 2014 15:47:03 +0000
 Subject: [PATCH] Update Huawei SoftapControllerATH for 5.0
 
 ---
  server/Android.mk              |  13 +-
- server/CommandListener.cpp     |  11 +-
+ server/CommandListener.cpp     |   8 +
  server/SoftapController.h      |   8 +
- server/SoftapControllerATH.cpp | 817 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 845 insertions(+), 3 deletions(-)
+ server/SoftapControllerATH.cpp | 819 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 846 insertions(+), 2 deletions(-)
  create mode 100644 server/SoftapControllerATH.cpp
 
 diff --git a/server/Android.mk b/server/Android.mk
-index fc85fa4..6aff06b 100755
+index 2548df4..a4ae153 100644
 --- a/server/Android.mk
 +++ b/server/Android.mk
-@@ -25,7 +25,7 @@ LOCAL_C_INCLUDES := \
+@@ -23,7 +23,7 @@ LOCAL_C_INCLUDES := \
          system/netd/include \
  
  LOCAL_CLANG := true
@@ -24,16 +24,16 @@ index fc85fa4..6aff06b 100755
  LOCAL_MODULE := netd
  
  LOCAL_SHARED_LIBRARIES := \
-@@ -61,7 +61,6 @@ LOCAL_SRC_FILES := \
-         PppController.cpp \
+@@ -67,7 +67,6 @@ LOCAL_SRC_FILES := \
+         QtiConnectivityAdapter.cpp \
          ResolverController.cpp \
          RouteController.cpp \
 -        SoftapController.cpp \
+         StrictController.cpp \
          TetherController.cpp \
          UidRanges.cpp \
-         VirtualNetwork.cpp \
-@@ -83,6 +82,16 @@ ifdef WPA_SUPPLICANT_VERSION
-   LOCAL_C_INCLUDES += external/wpa_supplicant_8/src/common
+@@ -86,6 +85,16 @@ ifeq ($(BOARD_HAS_QCOM_WLAN), true)
+   LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/sdk/softap/include
  endif
  
 +ifeq ($(BOARD_HAS_ATH_WLAN),true)
@@ -50,31 +50,26 @@ index fc85fa4..6aff06b 100755
  
  include $(CLEAR_VARS)
 diff --git a/server/CommandListener.cpp b/server/CommandListener.cpp
-index d6d7ca6..b29bd7f 100644
+index 895090a..081dffc 100755
 --- a/server/CommandListener.cpp
 +++ b/server/CommandListener.cpp
-@@ -873,9 +873,18 @@ int CommandListener::SoftapCmd::runCommand(SocketClient *cli,
-                      "Missing argument in a SoftAP command", false);
-         return 0;
+@@ -802,6 +802,14 @@ int CommandListener::SoftapCmd::runCommand(SocketClient *cli,
+         qccmd = 1;
      }
--
+     else if (!strcmp(argv[1], "startap")) {
 +    
-+#ifdef ATH_WLAN
++#elseif defined(ATH_WLAN)
 +    if (!strcmp(argv[1], "start")) {
 +        rc = sSoftapCtrl->startDriver(argv[2]);
 +    } else if (!strcmp(argv[1], "stop")) {
 +        rc = sSoftapCtrl->stopDriver(argv[2]);
 +    } else if (!strcmp(argv[1], "startap")) {
-+        rc = sSoftapCtrl->startSoftap();
-+#else
++
+ #else
      if (!strcmp(argv[1], "startap")) {
-         rc = sSoftapCtrl->startSoftap();
-+#endif
-     } else if (!strcmp(argv[1], "stopap")) {
-         rc = sSoftapCtrl->stopSoftap();
-     } else if (!strcmp(argv[1], "fwreload")) {
+ #endif
 diff --git a/server/SoftapController.h b/server/SoftapController.h
-index fd53939..a2cc137 100755
+index efc19e3..5f8c5c4 100755
 --- a/server/SoftapController.h
 +++ b/server/SoftapController.h
 @@ -34,6 +34,10 @@ public:
@@ -90,7 +85,7 @@ index fd53939..a2cc137 100755
      bool isSoftapStarted();
 @@ -46,6 +50,10 @@ private:
      int mThreadErr;
-     int mHostapdFlag;
+     bool mHostapdFlag;
  #endif
 +#ifdef ATH_WLAN
 +    char mBuf[SOFTAP_MAX_BUFFER_SIZE];
@@ -101,10 +96,10 @@ index fd53939..a2cc137 100755
  #ifdef LIBWPA_CLIENT_EXISTS
 diff --git a/server/SoftapControllerATH.cpp b/server/SoftapControllerATH.cpp
 new file mode 100644
-index 0000000..34fa285
+index 0000000..fe34d81
 --- /dev/null
 +++ b/server/SoftapControllerATH.cpp
-@@ -0,0 +1,817 @@
+@@ -0,0 +1,819 @@
 +/*
 + * Copyright (C) 2008 The Android Open Source Project
 + *
@@ -124,9 +119,11 @@ index 0000000..34fa285
 +#include <stdlib.h>
 +#include <errno.h>
 +#include <fcntl.h>
++#include <string.h>
 +
 +#include <sys/socket.h>
 +#include <sys/stat.h>
++#include <sys/ioctl.h>
 +#include <sys/types.h>
 +#include <sys/wait.h>
 +
@@ -157,7 +154,7 @@ index 0000000..34fa285
 +#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 +#endif
 +
-+#include <sys/_system_properties.h>
++#include <sys/system_properties.h>
 +#include "wpa_ctrl.h"
 +
 +static const char IFACE_DIR[]           = "/data/misc/wifi/hostapd";
@@ -923,5 +920,5 @@ index 0000000..34fa285
 +    return ResponseCode::SoftapStatusResult;
 +} 
 -- 
-2.2.1
+2.6.1
 
