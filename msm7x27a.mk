@@ -153,7 +153,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ril.subscription.types=NV,RUIM \
     rild.libargs=-d/dev/smd0 \
     ro.telephony.call_ring.delay=100 \
-    ro.telephony.call_ring.multiple=false
+    ro.telephony.call_ring.multiple=false \
+    ro.lge.proximity.delay=25 \
+    mot.proximity.delay=25
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vold.umsdirtyratio=50
@@ -194,7 +196,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
    media.stagefright.enable-http=true \
    media.stagefright.enable-fma2dp=true \
    media.stagefright.enable-aac=true \
-   media.stagefright.enable-qcp=true
+   media.stagefright.enable-qcp=true \
+   media.aac_51_output_enabled=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
    mm.enable.smoothstreaming=true
