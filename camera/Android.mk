@@ -63,6 +63,11 @@ LOCAL_SHARED_LIBRARIES := \
     libmmcamera_interface2
 
 LOCAL_CFLAGS += -include bionic/libc/include/sys/socket.h
+LOCAL_CFLAGS += \
+    -Wno-reorder \
+    -Wno-unused-parameter \
+    -Wno-conversion-null \
+    -Wno-narrowing
 
 ifeq ($(DLOPEN_LIBMMCAMERA),1)
     LOCAL_SHARED_LIBRARIES += libdl

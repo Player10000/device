@@ -66,7 +66,14 @@ LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_CFLAGS += -fno-short-enums
+LOCAL_CFLAGS += \
+    -fno-short-enums \
+    -Wno-reorder \
+    -Wno-unused-parameter \
+    -Wno-sign-compare \
+    -Wno-pointer-arith \
+    -Wno-type-limits \
+    -Wno-implicit-function-declaration
 
 LOCAL_C_INCLUDES := $(TARGET_OUT_HEADERS)/mm-audio/audio-alsa
 ifeq ($(strip $(TARGET_HAS_QACT)),true)
