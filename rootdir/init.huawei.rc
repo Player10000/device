@@ -159,11 +159,10 @@ on boot
     write /sys/block/mmcblk0/queue/add_random 0
     write /sys/block/mmcblk1/queue/add_random 0
 
-    # UKSM
-    write /sys/kernel/mm/uksm/run 1
-    chown root system /sys/kernel/mm/uksm/sleep_millisecs
-    chmod 0664 /sys/kernel/mm/uksm/sleep_millisecs
-    write /sys/kernel/mm/uksm/sleep_millisecs 500
+    # KSM
+    write /sys/kernel/mm/ksm/run 1
+    write /sys/kernel/mm/ksm/pages_to_scan 100
+    write /sys/kernel/mm/ksm/sleep_millisecs 500
 
     # Enable sysrq
     write /proc/sys/kernel/sysrq 1
@@ -290,4 +289,4 @@ service akm8975 /system/bin/akmd8975
     oneshot
 
 on property:sys.boot_completed=1
-    setprop sys.io.scheduler bfq
+    setprop sys.io.scheduler deadline
