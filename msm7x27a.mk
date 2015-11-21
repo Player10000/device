@@ -45,12 +45,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libmm-omxcore \
     libOmxCore \
-    libdashplayer \
     libstagefrighthw
-    
-# QcMediaPlayer
-PRODUCT_PACKAGES += \
-    qcmediaplayer
 
 PRODUCT_PACKAGES += \
     gps.msm7x27a
@@ -139,6 +134,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.ftp=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
+    debug.sf.hw=1 \
     debug.composition.type=dyn \
     debug.hwc.dynThreshold=1.9 \
     persist.hwc.mdpcomp.enable=false \
@@ -158,7 +154,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ril.subscription.types=NV,RUIM \
     rild.libargs=-d/dev/smd0 \
-    ro.telephony.call_ring.delay=100 \
     ro.telephony.call_ring.multiple=false \
     ro.lge.proximity.delay=25 \
     mot.proximity.delay=25
@@ -174,7 +169,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Audio
  PRODUCT_PROPERTY_OVERRIDES += \
      audio.gapless.playback.disable=true \
-     audio.offload.disable=1
+     audio.offload.disable=1 \
+     persist.sys.media.use-awesome=true
 
 # Low RAM
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -184,6 +180,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.max_starting_bg=6 \
     ro.sys.fw.bg_apps_limit=8
     
+# Strict mode
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.strictmode.visual=0 \
+    persist.sys.strictmode.disable=1
+
 # FM Radio
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.fm.analogpath.supported=false \
@@ -213,12 +214,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
    dalvik.vm.dex2oat-filter=balanced \
    dalvik.vm.dex2oat-flags=--no-watch-dog \
    dalvik.vm.image-dex2oat-filter=speed
-
-# ART properties
-ADDITIONAL_DEFAULT_PROPERTIES += \
-   dalvik.vm.dex2oat-Xms=8m \
-   dalvik.vm.dex2oat-Xmx=96m \
-   dalvik.vm.image-dex2oat-Xms=48m \
-   dalvik.vm.image-dex2oat-Xmx=48m
 
 $(call inherit-product, vendor/huawei/msm7x27a-common/msm7x27a-common-vendor.mk)

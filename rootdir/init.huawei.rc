@@ -156,12 +156,14 @@ on boot
     
     # Flash storage isn't a good entropy source, and only causes locking
     # overhead in the kernel. Turn it off.
-    write /sys/block/mmcblk0p17/queue/add_random 0
-    write /sys/block/mmcblk0p18/queue/add_random 0
-    write /sys/block/mmcblk0p15/queue/add_random 0
+    write /sys/block/mmcblk0/queue/add_random 0
+    write /sys/block/mmcblk1/queue/add_random 0
 
-    # Enable UKSM
+    # UKSM
     write /sys/kernel/mm/uksm/run 1
+    chown root system /sys/kernel/mm/uksm/sleep_millisecs
+    chmod 0664 /sys/kernel/mm/uksm/sleep_millisecs
+    write /sys/kernel/mm/uksm/sleep_millisecs 500
 
     # Enable sysrq
     write /proc/sys/kernel/sysrq 1
@@ -206,7 +208,7 @@ on post-fs-data
     mkdir /data/wiper 0755 gps qcom_oncrpc
 
     # Set button backlight brightness
-    write /sys/class/leds/button-backlight/max_brightness 25
+    write /sys/class/leds/button-backlight/max_brightness 20
 
     chown system system /sys/class/android_usb/android0/f_mass_storage/lun/file
     chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun/file
