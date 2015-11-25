@@ -143,7 +143,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.hwc.fakevsync=1 \
     ro.max.fling_velocity=4000 \
     ro.opengles.version=131072 \
-    ro.sf.lcd_density=220
+    ro.sf.lcd_density=240
 
 PRODUCT_PROPERTY_OVERRIDES += \
     com.qc.hardware=true \
