@@ -146,6 +146,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=240
 
 PRODUCT_PROPERTY_OVERRIDES += \
+        debug.egl.recordable.rgba8888=1
+
+PRODUCT_PROPERTY_OVERRIDES += \
     com.qc.hardware=true \
     dev.pm.dyn_sample_period=700000 \
     dev.pm.dyn_samplingrate=1 \
@@ -169,8 +172,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Audio
  PRODUCT_PROPERTY_OVERRIDES += \
      audio.gapless.playback.disable=true \
-     audio.offload.disable=1 \
-     persist.sys.media.use-awesome=true
+     audio.offload.disable=1
 
 # Low RAM
 PRODUCT_PROPERTY_OVERRIDES += \
